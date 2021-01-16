@@ -11,6 +11,9 @@ const purchaseModel = mongoose.Schema({
     date: {
         type: String,
         required: true
+    },
+    image: {
+        type: String
     }
 }, {
     collection: "purchases",
