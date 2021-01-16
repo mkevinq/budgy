@@ -6,7 +6,8 @@ const app = admin.initializeApp();
 module.exports = (req, res, next) => {
     try {
         const token = req.headers.authorization.split("Bearer ")[1];
-        req.user = admin.auth().verifyIdToken(token);
+        admin.auth().verifyIdToken(token)
+        .then((decoded) => req.user = decoded);
     } catch (err) {
         console.log(err);
         return res.status(401).json({
