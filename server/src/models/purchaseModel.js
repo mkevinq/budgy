@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const purchaseModel = mongoose.Schema({
     user: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: String,
         required: true
     },
     items: {
