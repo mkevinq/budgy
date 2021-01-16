@@ -14,6 +14,9 @@ const purchaseModel = mongoose.Schema({
     },
     image: {
         type: String
+    },
+    location: {
+        type: String
     }
 }, {
     collection: "purchases",
