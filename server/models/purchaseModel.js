@@ -9,7 +9,7 @@ const purchaseModel = mongoose.Schema({
         type: [mongoose.Schema.Types.ObjectId],
     }
 }, {
-    collection: "purchase",
+    collection: "purchases",
     timestamps: true
 });
 
