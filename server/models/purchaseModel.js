@@ -7,6 +7,10 @@ const purchaseModel = mongoose.Schema({
     },
     items: {
         type: [mongoose.Schema.Types.ObjectId],
+    },
+    date: {
+        type: String,
+        required: true
     }
 }, {
     collection: "purchases",
