@@ -68,6 +68,8 @@ function main(listOfStrings){
 
 testString = ["PREMIUM BANANA $4.20","APPLES $2.50","BLANK $3.50"];
 console.log(main(testString));
+var d = new Date();
+console.log(d);
 /*var ret = getItems(testString);
 var items = ret[0];
 var prices = ret[1];

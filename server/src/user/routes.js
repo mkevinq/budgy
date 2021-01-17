@@ -8,6 +8,7 @@ const router = express.Router();
 const User = require('../models/userModel');
 const Purchase = require('../models/purchaseModel');
 const Item = require('../models/itemModel');
+const itemRecog = require('../itemRecognition');
 
 router.get("/purchases", (req, res) => {
     Purchase.find({ user: req.user.uid })
@@ -31,6 +32,24 @@ router.get("/item/:itemId", (req, res) => {
 
 router.post("/upload", (req, res) => {
     const [result] = client.textDetection(Buffer.from(req.body.imgb64, 'base64'));
+    var jsonFile = itemRecog.main(result);
+    var d = new Date();
+    var total = 0
+    var i;
+    for (i=0; i<jsonFile.length;i++){
+        total = total + parseInt(jsonFile[i].price);//converts string to int
+    }
+    var finishedJSON ={ 
+    data:{
+        purchase:{
+            date:d,
+            total:total,
+            location:temp,
+        },
+        items:jsonFile,
+    }
+    }
+    res.status(200).json(finishedJSON);
 })
 
 router.post("/createPurchase", (req, res) => {
