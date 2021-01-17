@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, FlatList, Text, Touchable } from 'react-native';
+import { View, FlatList, Text, Touchable, Button } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import PurchaseItem from '../components/purchaseItem';
 import UserContext from '../userContext';
@@ -61,6 +61,7 @@ export default class Purchases extends React.Component {
     render() {
         return(
             <View>
+                <Button title="Add a purchase" onPress={() => this.props.navigation.navigate("Add Purchase")}></Button>
                 <FlatList
                     data={this.state.allPurchases}
                     renderItem={({item}) => (

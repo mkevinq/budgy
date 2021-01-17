@@ -11,6 +11,7 @@ import IndividualPurchases from './screens/individualPurchases';
 import Category from './screens/category';
 import Login from './screens/login';
 import Register from './screens/register';
+import addPurchase from './screens/addPurchase';
 
 import UserContext from './userContext';
 
@@ -19,6 +20,7 @@ function PurchasesStackScreen() {
   return (
     <PurchasesStack.Navigator>
       <PurchasesStack.Screen name="Purchases" component={Purchases} />
+      <PurchasesStack.Screen name="Add Purchase" component={addPurchase} />
       <PurchasesStack.Screen name="Individual Purchase" component={IndividualPurchases} />
     </PurchasesStack.Navigator>
   )
