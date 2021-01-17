@@ -74,10 +74,10 @@ export default class addPurchase extends React.Component {
                 'Content-type': 'application/json'
             },
             body: JSON.stringify({
-                date: date,
-                location: location,
-                total: total,
-                items: items 
+                date: this.state.date,
+                location: this.state.location,
+                total: this.state.total,
+                items: this.state.items 
             })
             })
             .then((response) => response.json())
