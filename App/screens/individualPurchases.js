@@ -17,34 +17,7 @@ export default class IndividualPurchases extends React.Component {
                 "Entertainment",
                 "Miscellaneous"
             ],
-            items: [],
-
-            temp: [
-                {
-                    _id: "oiwaefioj",
-                    user: "kljasdfkjlhawef",
-                    purchase: "akleshfkljawef",
-                    name: "Orange",
-                    cost: 2.00,
-                    category: "Groceries"
-                },
-                {
-                    _id: "asdfasdf",
-                    user: "asdfasdfasdfasdf",
-                    purchase: "asdfasdf",
-                    name: "Apple",
-                    cost: 5.00,
-                    category: "Groceries"
-                },
-                {
-                    _id: "lkj;lkj;lkj",
-                    user: "lkjhlkjhlkjhlkjh",
-                    purchase: "lkjhkjhlkhjklh",
-                    name: "TV",
-                    cost: 10.00,
-                    category: "Entertainment"
-                }
-            ]
+            items: this.getPurchases(this.props.purchase_id),
         }
     }
 
@@ -55,7 +28,7 @@ export default class IndividualPurchases extends React.Component {
         fetch('https://budgy-r5enpvgyka-uc.a.run.app', {
             method: 'GET /user/items/' + purchase_id,
             headers: {
-                'Authorization': 'Bearer ', // Include Bearer token
+                'Authorization': 'Bearer ' + this.context.token,
                 'Content-type': 'application/json'
             }})
             .then((response) => response.json())
@@ -82,7 +55,7 @@ export default class IndividualPurchases extends React.Component {
         // Iterate through each item in the purchase, and append it to the end of its corresponding category array
         
         // Iterate through each purchase, where item will be each item
-        for (item of this.state.temp) { //getPurchases(purchase_id)
+        for (item of this.state.items) {
             // Iterate through each category, where category will be each element in the array, that consists of 2 key:value pairs
             for (i = 0; i < allItems.length; i++) {
 
