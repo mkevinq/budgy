@@ -1,12 +1,14 @@
 import React from 'react';
-import { Text,View } from 'react-native';
+import { StyleSheet,TextInput, Text, View } from 'react-native';
 
-
-export default function budgetItem({ category, amount }) {
+export default function budgetItem(props) {
     return (
         <View>
-            <Text>{category}</Text>
-            <Text>${amount}</Text>
+            <Text>{props.category}</Text>
+            <View style={{flexDirection: "row", alignItems: "center", flex: 1}}>
+                <Text>$</Text>
+                <TextInput onChangeText={(text) => props.updateBudget(props.id, isNaN(parseFloat(text)) ? 0 : parseFloat(text))}>{props.amount}</TextInput>
+            </View>
         </View>
     );
 }
