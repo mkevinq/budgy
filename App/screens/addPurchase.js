@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
 import { ScrollView, View, Text, TextInput, Button, Platform } from 'react-native';
-import AddItem from '../components/addItem';
 import * as ImagePicker from 'expo-image-picker';
-
 export default class addPurchase extends React.Component {
     
     constructor(props) {
@@ -27,10 +25,6 @@ export default class addPurchase extends React.Component {
                 }
             }
         }
-    }
-
-    componentDidUpdate() {
-
     }
     
     getImage = async () => {
@@ -97,33 +91,38 @@ export default class addPurchase extends React.Component {
 
     render() {
         return(
-            <>
+            <View>
                 <Button title="Pick an image from camera roll" onPress={this.getImage} />
-                <ScrollView>
-                    <View>
-                        <Text>Location:</Text>
-                        <TextInput onChangeText = {(text) => {this.setState({"location": text});}}>{this.state.location}</TextInput>
+                <ScrollView style={{}}>
+                    <View style={{flexDirection: 'row', paddingHorizontal: 10, alignItems: 'center'}}>
+                        <Text style={{fontSize: 30}}>Location: </Text>
+                        <TextInput onChangeText = {(text) => {this.setState({"location": text});}} style={{borderWidth: 1, padding: 5, width: 240, fontSize: 20}}>{this.state.location}</TextInput>
                     </View>
-                    <View>
-                        <Text>Date:</Text>
-                        <TextInput onChangeText = {(text) => {this.setState({"date": text});}}>{this.state.date}</TextInput>
+                    <View style={{flexDirection: 'row', paddingHorizontal: 10, alignItems: 'center'}}>
+                        <Text style={{fontSize: 30}}>Date: </Text>
+                        <TextInput onChangeText = {(text) => {this.setState({"date": text});}} style={{borderWidth: 1, padding: 5, width: 240, fontSize: 20}}>{this.state.date}</TextInput>
                     </View>
-                    <View>
-                        <Text>Total:</Text>
-                        <TextInput onChangeText = {(text) => {this.setState({"total": parseFloat(text)});}}>{this.state.total}</TextInput>
+                    <View style={{flexDirection: 'row', paddingHorizontal: 10, alignItems: 'center'}}>
+                        <Text style={{fontSize: 30}}>Total: </Text>
+                        <TextInput onChangeText = {(text) => {this.setState({"total": parseFloat(text)});}} style={{borderWidth: 1, padding: 5, width: 240, fontSize: 20}}>{this.state.total}</TextInput>
                     </View>
 
                     {(this.state.items).map((item, index) => {
                         return(
                             <View>
                                 {/* <AddItem name={item.name} cost={item.cost} category={item.category} number={index + 1}/> */}
-                                <Text>Item {index + 1}</Text>
-                                <Text>Name:</Text>
-                                <TextInput onChangeText = {(text) => {this.textHandlerItems(text, index, "name")}}>{item.name}</TextInput>
-                                <Text>Cost:</Text>
-                                <TextInput onChangeText = {(text) => {this.textHandlerItems(text, index, "cost")}}>{item.cost}</TextInput>
-                                <Text>Category:</Text>
-                                <TextInput onChangeText = {(text) => {this.textHandlerItems(text, index, "category")}}>{item.category}</TextInput>
+                                <View style={{flexDirection: 'row'}}>
+                                    <Text style={{fontSize: 20}}>Name: </Text>
+                                    <TextInput onChangeText = {(text) => {this.textHandlerItems(text, index, "name")}} style={{borderWidth: 1, padding: 5, width: 240, fontSize: 10}}>{item.name}</TextInput>
+                                </View>
+                                <View style={{flexDirection: 'row'}}>
+                                    <Text style={{fontSize: 20}}>Cost: </Text>
+                                    <TextInput onChangeText = {(text) => {this.textHandlerItems(text, index, "cost")}} style={{borderWidth: 1, padding: 5, width: 240, fontSize: 10}}>{item.cost}</TextInput>
+                                </View>
+                                <View style={{flexDirection: 'row'}}>
+                                    <Text style={{fontSize: 20}}>Category: </Text>
+                                    <TextInput onChangeText = {(text) => {this.textHandlerItems(text, index, "category")}} style={{borderWidth: 1, padding: 5, width: 240, fontSize: 10}}>{item.category}</TextInput>
+                                </View>
                                 <Button
                                     title="DELETE"
                                     onPress={() => {
@@ -156,7 +155,7 @@ export default class addPurchase extends React.Component {
                         }}
                     />
                 </ScrollView>
-            </>
+            </View>
         )
     }
 }
