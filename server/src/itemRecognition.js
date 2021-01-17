@@ -7,6 +7,13 @@ var keyWords = ["BANANA","MILK","BREAD","CHIK","CARROT","PEPPER","APPLES","GRAPE
 var groceries = ["BANANA","MILK","BREAD","CHIK","CARROT","PEPPER","APPLES","GRAPE","HUMMUS","JCE"];
 var entertainment = ["MOVIE", "TV", "SPORTS"];
 var miscellaneous = ["RENT", "UTILITIES"];
+
+//takes in a large string and converts to a new format: an array of strings where every new line is a new index
+function cleanString(giantString){
+	var arrayString = giantString.split("\n");
+	return arrayString;
+}
+
 function getItems(listOfStrings){
 	var items = []
 	var itemCategory = []
@@ -56,7 +63,8 @@ function makeJSON(items, prices, itemCategory){
 }
 
 function main(listOfStrings){
-	var ret = getItems(testString);
+	var cleanStr = cleanString(listOfStrings);
+	var ret = getItems(cleanStr);
 	var items = ret[0];
 	var prices = ret[1];
 	var itemCategory = ret[2];
@@ -67,9 +75,12 @@ function main(listOfStrings){
 
 
 testString = ["PREMIUM BANANA $4.20","APPLES $2.50","BLANK $3.50"];
-console.log(main(testString));
-var d = new Date();
-console.log(d);
+testString2 = "PREMIUM BANANA $4.20 \n APPLES $2.50 \n BLANK $3.50";
+//var newString = cleanString(testString2);
+//console.log(newString);
+console.log(main(testString2));
+//var d = new Date();
+//console.log(d);
 /*var ret = getItems(testString);
 var items = ret[0];
 var prices = ret[1];
