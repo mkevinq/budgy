@@ -30,25 +30,26 @@ router.get("/item/:itemId", (req, res) => {
     .then(result => res.status(200).json({ data: result }));
 })
 
-router.post("/upload", (req, res) => {
-    const [result] = client.textDetection(Buffer.from(req.body.imgb64, 'base64'));
-    var jsonFile = itemRecog.main(result);
+router.post("/upload", async (req, res) => {
+    const [result] = await client.textDetection(Buffer.from(req.body.imgb64, 'base64'));
+    var jsonFile = itemRecog(result.fullTextAnnotation.text);
     var d = new Date();
     var total = 0
     var i;
     for (i=0; i<jsonFile.length;i++){
-        total = total + parseInt(jsonFile[i].price);//converts string to int
+        isNaN(parseInt(jsonFile[i].price)) ? 0 : total = total + parseInt(jsonFile[i].price)
     }
-    var finishedJSON ={ 
-    data:{
-        purchase:{
-            date:d,
-            total:total,
-            location:temp,
-        },
-        items:jsonFile,
+    var finishedJSON = { 
+        data:{
+            purchase:{
+                date:d,
+                total:total,
+                location:"Kingston",
+            },
+            items:jsonFile,
+        }
     }
-    }
+    console.log(finishedJSON)
     res.status(200).json(finishedJSON);
 })
 

@@ -23,7 +23,7 @@ async function main() {
 
     app.set("mongoose", mongoose);
 
-    app.use(bodyParser.json());
+    app.use(bodyParser.json({ limit: "50mb" }));
     app.use(cors());
 
     app.use(auth);
@@ -32,7 +32,7 @@ async function main() {
         res.send("Hello world!");
     });
 
-    app.use("/user", userRoutes)
+    app.use("/user", userRoutes);
 
     app.listen(port);
 }

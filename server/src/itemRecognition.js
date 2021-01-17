@@ -62,7 +62,7 @@ function makeJSON(items, prices, itemCategory){
 	return jsonList;
 }
 
-function main(listOfStrings){
+module.exports = function main(listOfStrings){
 	var cleanStr = cleanString(listOfStrings);
 	var ret = getItems(cleanStr);
 	var items = ret[0];
@@ -74,11 +74,11 @@ function main(listOfStrings){
 }
 
 
-testString = ["PREMIUM BANANA $4.20","APPLES $2.50","BLANK $3.50"];
-testString2 = "PREMIUM BANANA $4.20 \n APPLES $2.50 \n BLANK $3.50";
+//testString = ["PREMIUM BANANA $4.20","APPLES $2.50","BLANK $3.50"];
+//testString2 = "PREMIUM BANANA $4.20 \n APPLES $2.50 \n BLANK $3.50";
 //var newString = cleanString(testString2);
 //console.log(newString);
-console.log(main(testString2));
+//console.log(main(testString2));
 //var d = new Date();
 //console.log(d);
 /*var ret = getItems(testString);
