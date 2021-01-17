@@ -82,7 +82,7 @@ function MainTabs() {
 const MainStack = createStackNavigator();
 function MainStackScreens() {
   return (
-    <MainStack.Navigator headerMode = "none" initialRouteName = "">
+    <MainStack.Navigator headerMode = "none" initialRouteName = "Login">
       <MainStack.Screen name = "Login" component = {Login} />
       <MainStack.Screen name = "Register" component = {Register} />
       <MainStack.Screen name = "Main Tabs" component = {MainTabs} />
