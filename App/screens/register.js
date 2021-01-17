@@ -4,9 +4,19 @@ import { TextInput, View, Button } from 'react-native';
 import firebase from '../firebaseConfig';
 
 export default class Register extends React.Component {
-    state = {
-        email: "",
-        password: ""
+    constructor(props) {
+        super(props)
+        this.state = {
+            email: "",
+            password: ""
+        }
+    }
+
+    componentDidMount() {
+        firebase.auth().onAuthStateChanged(user => {
+            console.log(user);
+            this.props.navigation.navigate("Main Tabs");
+        })
     }
 
     updateEmail = (text) => {
