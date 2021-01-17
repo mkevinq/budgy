@@ -6,7 +6,7 @@ export default class Purchases extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            allPurchases: getPurchases
+            allPurchases: getPurchases()
         }
     }
 
