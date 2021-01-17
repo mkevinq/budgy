@@ -52,11 +52,20 @@ function MainTabs() {
   </Tabs.Navigator>
 }
 
+const MainStack = createStackNavigator();
+function MainStackScreens() {
+  <MainStack.Navigator initialRouteName = "">
+    <MainStack.Screen name = "Login" component = {Login} />
+    <MainStack.Screen name = "Register" component = {Register} />
+    <MainStack.Screen name = "Main Tabs" component = {MainTabs} />
+  </MainStack.Navigator>
+}
+
 export default class App extends React.Component {
   render() {
     return (
       <NavigationContainer>
-        <BudgetStackScreen />
+        <MainStackScreens />
       </NavigationContainer>
     );
   }
