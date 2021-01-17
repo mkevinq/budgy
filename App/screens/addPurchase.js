@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { ScrollView, View, Text, TextInput, Button, Platform } from 'react-native';
-import AddItem from '../components/addItem';
 import * as ImagePicker from 'expo-image-picker';
 
 export default class addPurchase extends React.Component {
