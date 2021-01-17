@@ -9,7 +9,7 @@ export default class AddItem extends React.Component {
                 <Text>Name:</Text>
                 <TextInput>{this.props.name}</TextInput>
                 <Text>Cost:</Text>
-                <TextInput>${this.props.cost.toFixed(2)}</TextInput>
+                <TextInput>${this.props.cost}</TextInput>
                 <Text>Category:</Text>
                 <TextInput>{this.props.category}</TextInput>
             </View>

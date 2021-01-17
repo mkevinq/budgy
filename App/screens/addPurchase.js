@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, Text, TextInput, Button, Platform } from 'react-native';
+import { ScrollView, View, Text, TextInput, Button, Platform } from 'react-native';
 import AddItem from '../components/addItem';
 import * as ImagePicker from 'expo-image-picker';
 
@@ -12,32 +12,7 @@ export default class addPurchase extends React.Component {
             location: "here",
             image:null,
             total: 20.00,
-            items: [
-                {
-                  _id: "oiwaefioj",
-                  user: "kljasdfkjlhawef",
-                  purchase: "akleshfkljawef",
-                  name: "Orange",
-                  cost: 2.00,
-                  category: "Groceries"
-                },
-                {
-                  _id: "owasdlkj",
-                  user: "asdifaosudfpoai",
-                  purchase: "lqkwerhjqlkwe",
-                  name: "Apple",
-                  cost: 10.00,
-                  category: "Groceries"
-                },
-                {
-                  _id: "qowierupoqiuwer",
-                  user: "asdiyfpiouo",
-                  purchase: "qwerqwerqwer",
-                  name: "TV",
-                  cost: 20.00,
-                  category: "Entertainment"
-                }
-              ]
+            items: []
         };
     }
 
@@ -57,18 +32,35 @@ export default class addPurchase extends React.Component {
     getImage = async () => {
         let result = await ImagePicker.launchCameraAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
-            quality: 1,
+            quality: 0.1,
             base64: true,
         })
         if (!result.cancelled) {
-            this.setState({image:result})
-          }
+            fetch('https://budgy-r5enpvgyka-uc.a.run.app/user/upload', {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + this.context.token,
+                    'Content-type': 'application/json'
+                },
+                body: JSON.stringify({
+                    imgb64: result.base64
+                })
+                })
+                .then((response) => response.json())
+                .then((json) => {
+                    console.log(json.data);
+                    this.setState({date: json.data.date, total: json.data.total, location: json.data.purchase.location, items: json.data.items});
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        }
     }
 
     // Creating a purchase on the server
     createPurchase() {
-        fetch('https://budgy-r5enpvgyka-uc.a.run.app', {
-            method: 'POST /user/createPurchase',
+        fetch('https://budgy-r5enpvgyka-uc.a.run.app/user/createPurchase', {
+            method: 'POST',
             headers: {
                 'Authorization': 'Bearer ' + this.context.token,
                 'Content-type': 'application/json'
@@ -91,39 +83,41 @@ export default class addPurchase extends React.Component {
 
     render() {
         return(
-            <View>
-                <View>
-                    <Text>Location:</Text>
-                    <TextInput>{this.state.location}</TextInput>
-                </View>
-                <View>
-                    <Text>Date:</Text>
-                    <TextInput>{this.state.date}</TextInput>
-                </View>
-                <View>
-                    <Text>Total:</Text>
-                    <TextInput>${(this.state.total).toFixed(2)}</TextInput>
-                </View>
-
-                {(this.state.items).map((item, index) => {
-                    return(
-                        <View>
-                            <AddItem name={item.name} cost={item.cost} category={item.category} number={index + 1}/>
-                            <Button
-                                title="DELETE"
-                                 onPress={() => {
-                                     alert("Deleted ".concat((this.state.items)[index].name));
-                                     let itemList = (this.state.items);
-                                     itemList.splice(index, 1);
-                                     this.setState({items: itemList});
-                                 }}
-                            />
-                        </View>
-                    )
-                })}
+            <>
                 <Button title="ADD MORE" />
                 <Button title="Pick an image from camera roll" onPress={this.getImage} />
-            </View>
+                <ScrollView>
+                    <View>
+                        <Text>Location:</Text>
+                        <TextInput>{this.state.location}</TextInput>
+                    </View>
+                    <View>
+                        <Text>Date:</Text>
+                        <TextInput>{this.state.date}</TextInput>
+                    </View>
+                    <View>
+                        <Text>Total:</Text>
+                        <TextInput>${this.state.total}</TextInput>
+                    </View>
+
+                    {(this.state.items).map((item, index) => {
+                        return(
+                            <View>
+                                <AddItem name={item.name} cost={item.cost} category={item.category} number={index + 1}/>
+                                <Button
+                                    title="DELETE"
+                                    onPress={() => {
+                                        alert("Deleted ".concat((this.state.items)[index].name));
+                                        let itemList = (this.state.items);
+                                        itemList.splice(index, 1);
+                                        this.setState({items: itemList});
+                                    }}
+                                />
+                            </View>
+                        )
+                    })}
+                </ScrollView>
+            </>
         )
     }
 }
