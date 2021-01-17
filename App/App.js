@@ -71,12 +71,16 @@ export default class App extends React.Component {
     super(props);
     this.state = {
       userData: {},
+      token: "",
       updateUserData: this.updateUserData.bind(this)
     };
   }
 
   updateUserData(user) {
-    this.setState({ userData: user });
+    user.getIdToken()
+    .then((token) => {
+      this.setState({ userData: user, token: token });
+    })
   }
 
   render() {
