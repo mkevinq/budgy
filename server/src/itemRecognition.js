@@ -56,7 +56,7 @@ function makeJSON(items, prices, itemCategory){
 	var jsonList = []
 	var i=0;
 	for (i = 0; i < items.length; i++) {
-		var jsonItem = {'name':items[i],'price':prices[i],'category':itemCategory[i]};
+		var jsonItem = {'name':items[i],'cost':prices[i],'category':itemCategory[i]};
 		jsonList.push(jsonItem);
 	}
 	return jsonList;
