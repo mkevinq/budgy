@@ -1,6 +1,7 @@
-import React from 'react';
-import { View, Text, TextInput, Button } from 'react-native';
+import React, { useEffect } from 'react';
+import { View, Text, TextInput, Button, Platform } from 'react-native';
 import AddItem from '../components/addItem';
+import * as ImagePicker from 'expo-image-picker';
 
 export default class addPurchase extends React.Component {
     
@@ -9,6 +10,7 @@ export default class addPurchase extends React.Component {
         this.state = {
             date: "01/01/2001",
             location: "here",
+            image:null,
             total: 20.00,
             items: [
                 {
@@ -38,7 +40,28 @@ export default class addPurchase extends React.Component {
               ]
         };
     }
+
+    componentDidMount(){
+        async() =>{
+            if (Platform.OS !== 'web') {
+                const { status } = await ImagePicker.requestCameraPermissionsAsync();
+                if (status !== 'granted') {
+                  alert('Sorry, we need camera permissions to make this work!');
+                }
+        }
+    }
     
+    getImage = async () => {
+        let result = await ImagePicker.launchCameraAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            quality: 1,
+            base64: true,
+        })
+        if (!result.cancelled) {
+            this.setState({image:result})
+          }
+    }
+
     render() {
         // Creating a purchase on the server
         const createPurchase = () => {
@@ -97,6 +120,7 @@ export default class addPurchase extends React.Component {
                     )
                 })}
                 <Button title="ADD MORE" />
+                <Button title="Pick an image from camera roll" onPress={this.getImage} />
             </View>
         )
     }
