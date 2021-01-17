@@ -41,13 +41,16 @@ export default class addPurchase extends React.Component {
         };
     }
 
-    componentDidMount(){
-        async() =>{
+    static contextType = UserContext;
+
+    componentDidMount() {
+        async() => {
             if (Platform.OS !== 'web') {
                 const { status } = await ImagePicker.requestCameraPermissionsAsync();
                 if (status !== 'granted') {
                   alert('Sorry, we need camera permissions to make this work!');
                 }
+            }
         }
     }
     
@@ -62,8 +65,31 @@ export default class addPurchase extends React.Component {
           }
     }
 
-    render() {
+    // Creating a purchase on the server
+    createPurchase() {
+        fetch('https://budgy-r5enpvgyka-uc.a.run.app', {
+            method: 'POST /user/createPurchase',
+            headers: {
+                'Authorization': 'Bearer ' + this.context.token,
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                date: date,
+                location: location,
+                total: total,
+                items: items 
+            })
+            })
+            .then((response) => response.json())
+            .then((json) => {
+                return json;
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
 
+    render() {
         return(
             <View>
                 <View>
