@@ -45,20 +45,24 @@ function StatStackScreen() {
 
 const Tabs = createBottomTabNavigator();
 function MainTabs() {
-  <Tabs.Navigator initialRouteName = "Budget">
-    <Tabs.Screen name="Purchases" component={PurchasesStackScreen} />
-    <Tabs.Screen name="Budget" component={BudgetStackScreen} />
-    <Tabs.Screen name="Stats" component={StatStackScreen} />
-  </Tabs.Navigator>
+  return (
+    <Tabs.Navigator initialRouteName = "Budget">
+      <Tabs.Screen name="Purchases" component={PurchasesStackScreen} />
+      <Tabs.Screen name="Budget" component={BudgetStackScreen} />
+      <Tabs.Screen name="Stats" component={StatStackScreen} />
+    </Tabs.Navigator>
+  )
 }
 
 const MainStack = createStackNavigator();
 function MainStackScreens() {
-  <MainStack.Navigator initialRouteName = "">
-    <MainStack.Screen name = "Login" component = {Login} />
-    <MainStack.Screen name = "Register" component = {Register} />
-    <MainStack.Screen name = "Main Tabs" component = {MainTabs} />
-  </MainStack.Navigator>
+  return (
+    <MainStack.Navigator initialRouteName = "">
+      <MainStack.Screen name = "Login" component = {Login} />
+      <MainStack.Screen name = "Register" component = {Register} />
+      <MainStack.Screen name = "Main Tabs" component = {MainTabs} />
+    </MainStack.Navigator>
+  )
 }
 
 export default class App extends React.Component {
