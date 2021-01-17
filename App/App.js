@@ -9,6 +9,8 @@ import Stats from './screens/stats';
 import Purchases from './screens/purchases';
 import IndividualPurchases from './screens/individualPurchases';
 import Category from './screens/category';
+import Login from './screens/login';
+import Register from './screens/register';
 
 
 const PurchasesStack = createStackNavigator();
