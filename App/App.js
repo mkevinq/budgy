@@ -30,7 +30,6 @@ function BudgetStackScreen() {
   return (
     <BudgetStack.Navigator>
       <BudgetStack.Screen name="Budget" component={Budget} />
-      <BudgetStack.Screen name="Edit Budget" component={EditBudget} />
     </BudgetStack.Navigator>
   )
 }
