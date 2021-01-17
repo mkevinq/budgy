@@ -8,10 +8,10 @@ export default class addPurchase extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            date: "01/01/2001",
-            location: "here",
+            date: "01/17/2021",
+            location: "",
             image:null,
-            total: 20.00,
+            total: 0,
             items: []
         };
     }
