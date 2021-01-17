@@ -131,9 +131,3 @@ dist
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-# ignore firebase credentials
-src/components/firebaseConfig.json
-
-# ignore journey google api credentials
-journey-backend/journey.json
