@@ -56,6 +56,8 @@ router.post("/createPurchase", (req, res) => {
     let purchase = {
         user: req.user.uid,
         date: req.body.date,
+        total: req.body.total,
+        location: req.body.location,
         items: []
     }
     let purchaseId = mongoose.Types.ObjectId();
