@@ -53,14 +53,15 @@ router.post("/upload", (req, res) => {
 })
 
 router.post("/createPurchase", (req, res) => {
+    let purchaseId = mongoose.Types.ObjectId();
     let purchase = {
+        _id: purchaseId,
         user: req.user.uid,
         date: req.body.date,
         total: req.body.total,
         location: req.body.location,
         items: []
     }
-    let purchaseId = mongoose.Types.ObjectId();
     let items = [];
 
     if (req.body.image) purchase.image = req.body.image;
