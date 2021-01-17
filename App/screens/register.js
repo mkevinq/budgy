@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { TextInput, View, Button } from 'react-native';
-import firebase from '../firebaseConfig';
+// import firebase from '../firebaseConfig';
 import UserContext from '../userContext';
 
 export default class Register extends React.Component {
@@ -16,11 +16,13 @@ export default class Register extends React.Component {
     static contextType = UserContext;
 
     componentDidMount() {
+        /*
         firebase.auth().onAuthStateChanged(user => {
             console.log(user);
             this.context.updateUserData(user);
             this.props.navigation.navigate("Main Tabs");
         })
+        */
     }
 
     updateEmail = (text) => {
@@ -32,6 +34,7 @@ export default class Register extends React.Component {
     }
 
     onRegister = () => {
+        /*
         firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
         .then(user => {
             console.log(user);
@@ -40,6 +43,8 @@ export default class Register extends React.Component {
         .catch(err => {
             console.log(err);
         })
+        */
+        this.props.navigation.navigate("Main Tabs");
     }
 
     onLogin = () => {
