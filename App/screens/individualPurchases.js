@@ -71,14 +71,14 @@ export default class IndividualPurchases extends React.Component {
 
     render() {
         return(
-            <View>
-                <Text>{this.state.location}</Text>
-                <Text>{this.state.date}</Text>
-                <Text>${this.state.total.toFixed(2)}</Text>
+            <View style={{padding: 15, alignItems: 'center', width: '100%'}}>
+                <Text style={{fontSize: 50}}>{this.state.location}</Text>
+                <Text style={{fontSize: 40}}>${this.state.total.toFixed(2)}</Text>
+                <Text style={{}}>{this.state.date}</Text>
                 <SectionList
                     sections={this.state.items}
                     renderSectionHeader = {({section}) => (
-                        <Text>{section.title}</Text>
+                        <Text style={{fontSize: 25, backgroundColor: '#00FF00'}}>{section.title}</Text>
                     )}
                     renderItem={({item}) => 
                         <ItemInfo name={item.name} cost={item.cost} />
@@ -86,6 +86,12 @@ export default class IndividualPurchases extends React.Component {
                     keyExtractor={item => item._id}
                     // Either remove heading or add placeholder text if the category is empty
                     ListEmptyComponent={<Text>No purchases</Text>}
+                    style={{
+                        alignSelf: 'flex-start',
+                        fontSize: 25,
+                        marginTop: 15,
+                        width: '100%'
+                    }}
                 />
             </View>
         )

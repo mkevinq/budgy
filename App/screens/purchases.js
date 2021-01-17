@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, FlatList, Text, Touchable, Button } from 'react-native';
+import { StyleSheet, ScrollView, FlatList, Text, Touchable, Button } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import PurchaseItem from '../components/purchaseItem';
 import UserContext from '../userContext';
@@ -60,8 +60,7 @@ export default class Purchases extends React.Component {
     
     render() {
         return(
-            <View>
-                <Button title="Add a purchase" onPress={() => this.props.navigation.navigate("Add Purchase")}></Button>
+            <ScrollView>
                 <FlatList
                     data={this.state.allPurchases}
                     renderItem={({item}) => (
@@ -72,7 +71,14 @@ export default class Purchases extends React.Component {
                     keyExtractor={(item) => item._id} // Requires a unique key that can be given to each new item
                     ListEmptyComponent={<Text>No purchases</Text>}
                 />
-            </View>
+                <Button title="New Purchase" onPress={() => this.props.navigation.navigate("Add Purchase")} style={{}} />
+            </ScrollView>
         )
     }
 }
+
+const styles = StyleSheet.create({
+    button: {
+        
+    }
+});
