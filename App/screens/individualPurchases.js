@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, SectionList, Text } from 'react-native';
 import ItemInfo from '../components/itemInfo';
+import UserContext from '../userContext';
 
 const temp = {
     location: 'Food Basics',
@@ -17,11 +18,15 @@ export default class IndividualPurchases extends React.Component {
                 "Entertainment",
                 "Miscellaneous"
             ],
-            items: this.getPurchases(this.props.purchase_id),
+            items: {},
         }
     }
 
     static contextType = UserContext;
+
+    componentDidMount() {
+        this.setState({ items: this.getPurchases(this.props.purchase_id) });
+    }
 
     // Retrieving an array of the items involved in a particular purchase, given the purchase ID
     getPurchases(purchase_id) {
