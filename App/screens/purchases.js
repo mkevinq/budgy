@@ -1,21 +1,28 @@
 import React from 'react';
 import { View, FlatList, Text } from 'react-native';
 import PurchaseItem from '../components/purchaseItem';
+import UserContext from '../userContext';
 
 export default class Purchases extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            allPurchases: getPurchases()
+            allPurchases: []
         }
     }
+
+    componentDidMount() {
+        this.setState({ allPurchases: getPurchases() });
+    }
+
+    static contextType = UserContext;
 
     // Retrieving an array of the purchase IDs
     getPurchases() {
         fetch('https://budgy-r5enpvgyka-uc.a.run.app', {
             method: 'GET /user/purchases',
             headers: {
-                'Authorization': 'Bearer oiwjefoijaweoigfjaosgjaa',
+                'Authorization': 'Bearer ' + this.context.token,
                 'Content-type': 'application/json'
             }})
             .then((response) => response.json())
@@ -32,7 +39,7 @@ export default class Purchases extends React.Component {
         fetch('https://budgy-r5enpvgyka-uc.a.run.app', {
             method: 'GET /user/purchase/' + id,
             headers: {
-                'Authorization': 'Bearer oiwjefoijaweoigfjaosgjaa',
+                'Authorization': 'Bearer ' + this.context.token,
                 'Content-type': 'application/json'
             }})
             .then((response) => response.json())
@@ -45,7 +52,7 @@ export default class Purchases extends React.Component {
     }
 
     mapPurchaseInfo(purchases) {
-        return purchases.map(getPurchaseInformation());
+        return purchases.map(purchase => getPurchaseInformation(purchase.id));
     }
     
     render() {
