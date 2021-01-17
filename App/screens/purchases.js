@@ -12,22 +12,23 @@ export default class Purchases extends React.Component {
     }
 
     componentDidMount() {
-        this.setState({ allPurchases: getPurchases() });
+        this.getPurchases()
     }
 
     static contextType = UserContext;
 
     // Retrieving an array of the purchase IDs
     getPurchases() {
-        fetch('https://budgy-r5enpvgyka-uc.a.run.app', {
-            method: 'GET /user/purchases',
+        fetch('https://budgy-r5enpvgyka-uc.a.run.app/user/purchases', {
+            method: 'GET',
             headers: {
                 'Authorization': 'Bearer ' + this.context.token,
                 'Content-type': 'application/json'
             }})
             .then((response) => response.json())
             .then((json) => {
-                return json.data.purchases;
+                this.setState({ allPurchases: json.data });
+                console.log(json.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -35,16 +36,17 @@ export default class Purchases extends React.Component {
     }
 
     // Retrieves information regarding a particular purchase, given the specific ID
+    /*
     getPurchaseInformation(id) {
-        fetch('https://budgy-r5enpvgyka-uc.a.run.app', {
-            method: 'GET /user/purchase/' + id,
+        fetch('https://budgy-r5enpvgyka-uc.a.run.app/user/purchase/' + id, {
+            method: 'GET',
             headers: {
                 'Authorization': 'Bearer ' + this.context.token,
                 'Content-type': 'application/json'
             }})
             .then((response) => response.json())
             .then((json) => {
-                return json.data;
+                this.setState(prevState => ({ mappedPurchases: [...prevState.mappedPurchases, json.data] }));
             })
             .catch((error) => {
                 console.error(error);
@@ -52,18 +54,19 @@ export default class Purchases extends React.Component {
     }
 
     mapPurchaseInfo(purchases) {
-        return purchases.map(purchase => getPurchaseInformation(purchase.id));
+        purchases.map(purchase => this.getPurchaseInformation(purchase._id));
     }
+    */
     
     render() {
         return(
             <View>
                 <FlatList
-                    data={mapPurchaseInfo(this.state.allPurchases)}
+                    data={this.state.allPurchases}
                     renderItem={({item}) => (
-                        <PurchaseItem store={item.location} date={item.date} total={item.total} />
+                        <PurchaseItem location={item.location} date={item.date} total={item.total} />
                     )}
-                    keyExtractor={item} // Requires a unique key that can be given to each new item
+                    keyExtractor={(item) => item._id} // Requires a unique key that can be given to each new item
                     ListEmptyComponent={<Text>No purchases</Text>}
                 />
             </View>
