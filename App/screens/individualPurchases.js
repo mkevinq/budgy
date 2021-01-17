@@ -25,7 +25,7 @@ export default class IndividualPurchases extends React.Component {
     static contextType = UserContext;
 
     componentDidMount() {
-        this.setState({ items: this.getPurchases(this.props.purchase_id) });
+        this.getPurchases(this.props.purchase_id);
     }
 
     // Retrieving an array of the items involved in a particular purchase, given the purchase ID
@@ -38,7 +38,7 @@ export default class IndividualPurchases extends React.Component {
             }})
             .then((response) => response.json())
             .then((json) => {
-                return json.data.items;
+                this.setState({items: json.data.items});
             })
             .catch((error) => {
                 console.error(error);
