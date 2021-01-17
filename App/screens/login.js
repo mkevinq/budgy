@@ -42,7 +42,7 @@ export default class Login extends React.Component {
     }
 
     onRegister = () => {
-
+        this.props.navigation.navigate("Register");
     }
 
     render() {

@@ -42,12 +42,17 @@ export default class Register extends React.Component {
         })
     }
 
+    onLogin = () => {
+        this.props.navigation.navigate("Login");
+    }
+
     render() {
         return (
             <View>
                 <TextInput onChangeText={this.updateEmail}></TextInput>
                 <TextInput onChangeText={this.updatePassword}></TextInput>
                 <Button title="Register" onPress={this.onRegister}></Button>
+                <Button title="Have an account" onPress={this.onLogin}></Button>
             </View>
         )
     }
