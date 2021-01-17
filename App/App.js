@@ -12,6 +12,7 @@ import Category from './screens/category';
 import Login from './screens/login';
 import Register from './screens/register';
 
+import UserContext from './userContext';
 
 const PurchasesStack = createStackNavigator();
 function PurchasesStackScreen() {
@@ -66,11 +67,25 @@ function MainStackScreens() {
 }
 
 export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      userData: {},
+      updateUserData: this.updateUserData.bind(this)
+    };
+  }
+
+  updateUserData(user) {
+    this.setState({ userData: user });
+  }
+
   render() {
     return (
-      <NavigationContainer>
-        <MainStackScreens />
-      </NavigationContainer>
+      <UserContext.Provider value={ this.state }>
+        <NavigationContainer>
+          <MainStackScreens />
+        </NavigationContainer>
+      </UserContext.Provider>
     );
   }
 }

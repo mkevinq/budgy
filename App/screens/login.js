@@ -1,6 +1,7 @@
 import React from 'react';
 import { TextInput, View, Button } from 'react-native';
 import firebase from '../firebaseConfig';
+import UserContext from '../userContext';
 
 export default class Login extends React.Component {
     constructor(props) {
@@ -11,9 +12,12 @@ export default class Login extends React.Component {
         }
     }
 
+    static contextType = UserContext;
+
     componentDidMount() {
         firebase.auth().onAuthStateChanged(user => {
             console.log(user);
+            this.context.updateUserData(user);
             this.props.navigation.navigate("Main Tabs");
         })
     }
