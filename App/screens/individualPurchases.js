@@ -3,13 +3,7 @@ import { View, SectionList, Text } from 'react-native';
 import ItemInfo from '../components/itemInfo';
 import UserContext from '../userContext';
 
-const temp = {
-    location: 'Food Basics',
-    date: '01/01/2001',
-    total: 50.00,       
-}
 export default class IndividualPurchases extends React.Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -18,39 +12,41 @@ export default class IndividualPurchases extends React.Component {
                 "Entertainment",
                 "Miscellaneous"
             ],
-            items: {},
+            tempItems: [],
+            items: [],
+            total: 0
         }
     }
 
     static contextType = UserContext;
 
     componentDidMount() {
-        this.getPurchases(this.props.purchase_id);
+        const { purchase } = this.props.route.params;
+        this.getPurchases(purchase._id)
     }
 
     // Retrieving an array of the items involved in a particular purchase, given the purchase ID
     getPurchases(purchase_id) {
-        fetch('https://budgy-r5enpvgyka-uc.a.run.app', {
-            method: 'GET /user/items/' + purchase_id,
+        fetch('https://budgy-r5enpvgyka-uc.a.run.app/user/items/' + purchase_id, {
+            method: 'GET' ,
             headers: {
                 'Authorization': 'Bearer ' + this.context.token,
                 'Content-type': 'application/json'
             }})
             .then((response) => response.json())
             .then((json) => {
-                this.setState({items: json.data.items});
+                this.getCategories(json.data)
             })
             .catch((error) => {
                 console.error(error);
             });
     }
 
-    getCategories() {
+    getCategories(items) {
         // Iterate through each category, and appending a new key:value pair to the list of items, with categories
-        let allItems;
+        let allItems = [];
 
         for (category of this.state.categories) {
-            allItems = this.state.items;
             allItems.push({
                 'title': category,
                 'data': []
@@ -60,10 +56,10 @@ export default class IndividualPurchases extends React.Component {
         // Iterate through each item in the purchase, and append it to the end of its corresponding category array
         
         // Iterate through each purchase, where item will be each item
-        for (item of this.state.items) {
+        for (item of items) {
             // Iterate through each category, where category will be each element in the array, that consists of 2 key:value pairs
             for (i = 0; i < allItems.length; i++) {
-
+                console.log(item);
                 if (item["category"] === allItems[i].title) {
                     allItems[i]["data"].push(item);
                 }
@@ -83,11 +79,12 @@ export default class IndividualPurchases extends React.Component {
                     renderSectionHeader = {({section}) => (
                         <Text>{section.title}</Text>
                     )}
-                    renderItem={({ item }) => 
+                    renderItem={({item}) => 
                         <ItemInfo name={item.name} cost={item.cost} />
                     }
-                    keyExtractor={item.id}
+                    keyExtractor={item => item._id}
                     // Either remove heading or add placeholder text if the category is empty
+                    ListEmptyComponent={<Text>No purchases</Text>}
                 />
             </View>
         )

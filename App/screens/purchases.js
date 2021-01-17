@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, FlatList, Text } from 'react-native';
+import { View, FlatList, Text, Touchable } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import PurchaseItem from '../components/purchaseItem';
 import UserContext from '../userContext';
 
@@ -28,7 +29,6 @@ export default class Purchases extends React.Component {
             .then((response) => response.json())
             .then((json) => {
                 this.setState({ allPurchases: json.data });
-                console.log(json.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -64,7 +64,9 @@ export default class Purchases extends React.Component {
                 <FlatList
                     data={this.state.allPurchases}
                     renderItem={({item}) => (
-                        <PurchaseItem location={item.location} date={item.date} total={item.total} />
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate("Individual Purchase", { purchase: item })}>
+                            <PurchaseItem location={item.location} date={item.date} total={item.total} />
+                        </TouchableOpacity>
                     )}
                     keyExtractor={(item) => item._id} // Requires a unique key that can be given to each new item
                     ListEmptyComponent={<Text>No purchases</Text>}
