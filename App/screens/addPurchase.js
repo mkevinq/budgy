@@ -28,6 +28,10 @@ export default class addPurchase extends React.Component {
             }
         }
     }
+
+    componentDidUpdate() {
+
+    }
     
     getImage = async () => {
         let result = await ImagePicker.launchCameraAsync({
@@ -81,29 +85,45 @@ export default class addPurchase extends React.Component {
             });
     }
 
+    textHandler(text, attribute) {
+        this.setState({attribute: text});
+    }
+
+    textHandlerItems(text, index, attribute) {
+        let updatedList = this.state.items;
+        updatedList[index][attribute] = text;
+        this.setState({items: updatedList});
+    }
+
     render() {
         return(
             <>
-                <Button title="ADD MORE" />
                 <Button title="Pick an image from camera roll" onPress={this.getImage} />
                 <ScrollView>
                     <View>
                         <Text>Location:</Text>
-                        <TextInput>{this.state.location}</TextInput>
+                        <TextInput onChangeText = {(text) => {this.setState({"location": text});}}>{this.state.location}</TextInput>
                     </View>
                     <View>
                         <Text>Date:</Text>
-                        <TextInput>{this.state.date}</TextInput>
+                        <TextInput onChangeText = {(text) => {this.setState({"date": text});}}>{this.state.date}</TextInput>
                     </View>
                     <View>
                         <Text>Total:</Text>
-                        <TextInput>${this.state.total}</TextInput>
+                        <TextInput onChangeText = {(text) => {this.setState({"total": parseFloat(text)});}}>{this.state.total}</TextInput>
                     </View>
 
                     {(this.state.items).map((item, index) => {
                         return(
                             <View>
-                                <AddItem name={item.name} cost={item.cost} category={item.category} number={index + 1}/>
+                                {/* <AddItem name={item.name} cost={item.cost} category={item.category} number={index + 1}/> */}
+                                <Text>Item {index + 1}</Text>
+                                <Text>Name:</Text>
+                                <TextInput onChangeText = {(text) => {this.textHandlerItems(text, index, "name")}}>{item.name}</TextInput>
+                                <Text>Cost:</Text>
+                                <TextInput onChangeText = {(text) => {this.textHandlerItems(text, index, "cost")}}>{item.cost}</TextInput>
+                                <Text>Category:</Text>
+                                <TextInput onChangeText = {(text) => {this.textHandlerItems(text, index, "category")}}>{item.category}</TextInput>
                                 <Button
                                     title="DELETE"
                                     onPress={() => {
@@ -116,6 +136,25 @@ export default class addPurchase extends React.Component {
                             </View>
                         )
                     })}
+                    <Button
+                        title="ADD MORE"
+                        onPress={() => {
+                            let updatedItemList = this.state.items;
+                            updatedItemList.push({
+                                name: "",
+                                cost: 0.00,
+                                category: ""
+                            });
+                            this.setState({items: updatedItemList});
+                        }}
+                    />
+                    <Button
+                        title="CONFIRM"
+                        onPress={() => {
+                            this.createPurchase();
+                            alert("Created new purchase entry");
+                        }}
+                    />
                 </ScrollView>
             </>
         )
