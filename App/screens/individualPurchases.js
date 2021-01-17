@@ -22,7 +22,8 @@ export default class IndividualPurchases extends React.Component {
 
     componentDidMount() {
         const { purchase } = this.props.route.params;
-        this.getPurchases(purchase._id)
+        this.setState({ total: purchase.total, date: purchase.date, location: purchase.location });
+        this.getPurchases(purchase._id);
     }
 
     // Retrieving an array of the items involved in a particular purchase, given the purchase ID
