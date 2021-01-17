@@ -66,8 +66,9 @@ export default class Stats extends React.Component {
             <SafeAreaView style={{ flex: 1 }}>
                 <ScrollView style={{ width: "100%", height: "100%" }}>
                     <CreatePieChart pieData = {pieData}/>
-                    <Text>Breakdown: ${this.state.sum}</Text>
+                    <Text style={{fontSize: 30, borderBottomWidth: 2}}>Breakdown</Text>
                     <FlatList data={categoryData} renderItem={({item}) => <StatisticsItem amount={item.amount} category={item.category}></StatisticsItem>} keyExtractor={(item) => categoryData.id} />
+                    <Text style={{fontSize: 30, borderTopWidth: 2}}>Total Spendings: ${this.state.sum}</Text>
                 </ScrollView>
             </SafeAreaView>
         )
