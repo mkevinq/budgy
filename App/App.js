@@ -4,7 +4,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Budget from './screens/budget';
-import EditBudget from './screens/editBudget';
 import Stats from './screens/stats';
 import Purchases from './screens/purchases';
 import IndividualPurchases from './screens/individualPurchases';

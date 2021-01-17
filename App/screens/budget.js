@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { Text, ScrollView, SafeAreaView, Dimensions, FlatList, Button } from 'react-native';
-import budgetItem from '../components/budgetItem';
+import { StyleSheet, Text, ScrollView, SafeAreaView, Dimensions, FlatList, Button } from 'react-native';
+import BudgetItem from '../components/budgetItem';
 import CreatePieChart from '../components/createPieChart';
-
 const pieData = [
     {
         name: "Groceries",
@@ -25,7 +24,7 @@ const pieData = [
         legendFontColor: "#7F7F7F",
         legendFontSize: 15
     }
-];
+]
 
 const categoryData = [
     {
@@ -46,14 +45,29 @@ const categoryData = [
 ]
 
 export default class Budget extends React.Component{
-    render(){
+    constructor(props) {
+        super(props);
+        this.state = {
+            pieData: pieData,
+            categoryData: categoryData
+        }
+    }
+
+    updateBudget(id, amount) {
+        categoryData[id - 1].amount = amount;
+        pieData[id - 1].amount = amount;
+        this.setState({
+            categoryData: categoryData,
+            pieData: pieData
+        })
+    }
+
+    render() {
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 <ScrollView style={{ width: "100%", height: "100%" }}>
-                    <CreatePieChart pieData = {pieData}/>
-                    <FlatList data={categoryData} renderItem={budgetItem} keyExtractor={categoryData.id} />
-                    <Button title="Edit Budget"
-                        onPress={() => this.props.navigation.navigate('Edit Budget')} />
+                    <CreatePieChart pieData = {this.state.pieData}/>
+                    <FlatList data={this.state.categoryData} renderItem={({item}) => <BudgetItem category={item.category} amount={item.amount} id={item.id} updateBudget={this.updateBudget.bind(this)}></BudgetItem>} keyExtractor={(item) => categoryData.id} />
                 </ScrollView>
             </SafeAreaView>
         );
