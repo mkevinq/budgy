@@ -35,10 +35,15 @@ export default class Register extends React.Component {
         firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
         .then(user => {
             console.log(user);
+            this.props.navigation.navigate("Main Tabs");
         })
         .catch(err => {
             console.log(err);
         })
+    }
+
+    onLogin = () => {
+        this.props.navigation.navigate("Login");
     }
 
     render() {
@@ -47,6 +52,7 @@ export default class Register extends React.Component {
                 <TextInput onChangeText={this.updateEmail}></TextInput>
                 <TextInput onChangeText={this.updatePassword}></TextInput>
                 <Button title="Register" onPress={this.onRegister}></Button>
+                <Button title="Have an account" onPress={this.onLogin}></Button>
             </View>
         )
     }

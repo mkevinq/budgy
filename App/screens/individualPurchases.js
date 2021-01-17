@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, SectionList, Text } from 'react-native';
 import ItemInfo from '../components/itemInfo';
+import UserContext from '../userContext';
 
 const temp = {
     location: 'Food Basics',
@@ -8,77 +9,77 @@ const temp = {
     total: 50.00,       
 }
 export default class IndividualPurchases extends React.Component {
-    render() {
 
-        // Retrieving an array of the items involved in a particular purchase, given the purchase ID
-        const getPurchases = (purchase_id) => {
-            fetch('https://budgy-r5enpvgyka-uc.a.run.app', {
-                method: 'GET /user/items/' + purchase_id,
-                headers: {
-                    'Authorization': 'Bearer ', // Include Bearer token
-                    'Content-type': 'application/json'
-                }})
-                .then((response) => response.json())
-                .then((json) => {
-                    return json.data.items;
-                })
-                .catch((error) => {
-                    console.error(error);
-                });
+    constructor(props) {
+        super(props);
+        this.state = {
+            categories: [
+                "Groceries",
+                "Entertainment",
+                "Miscellaneous"
+            ],
+            items: {},
         }
+    }
 
-        const categories = ["Groceries", "Entertainment", "Miscellaneous"]; // Categories to check for
-        var items = [];
+    static contextType = UserContext;
+
+    componentDidMount() {
+        this.setState({ items: this.getPurchases(this.props.purchase_id) });
+    }
+
+    // Retrieving an array of the items involved in a particular purchase, given the purchase ID
+    getPurchases(purchase_id) {
+        fetch('https://budgy-r5enpvgyka-uc.a.run.app', {
+            method: 'GET /user/items/' + purchase_id,
+            headers: {
+                'Authorization': 'Bearer ' + this.context.token,
+                'Content-type': 'application/json'
+            }})
+            .then((response) => response.json())
+            .then((json) => {
+                return json.data.items;
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
+
+    getCategories() {
         // Iterate through each category, and appending a new key:value pair to the list of items, with categories
-        for (category of categories) {
-            items.push({
+        let allItems;
+
+        for (category of this.state.categories) {
+            allItems = this.state.items;
+            allItems.push({
                 'title': category,
                 'data': []
             })
         }
-
-        const temp2 = [
-            {
-                _id: "oiwaefioj",
-                user: "kljasdfkjlhawef",
-                purchase: "akleshfkljawef",
-                name: "Orange",
-                cost: 2.00,
-                category: "Groceries"
-            },
-            {
-                _id: "asdfasdf",
-                user: "asdfasdfasdfasdf",
-                purchase: "asdfasdf",
-                name: "Apple",
-                cost: 5.00,
-                category: "Groceries"
-            },
-            {
-                _id: "lkj;lkj;lkj",
-                user: "lkjhlkjhlkjhlkjh",
-                purchase: "lkjhkjhlkhjklh",
-                name: "TV",
-                cost: 10.00,
-                category: "Entertainment"
-            }
-        ]
-
+        
         // Iterate through each item in the purchase, and append it to the end of its corresponding category array
-        for (item of temp2) { //getPurchases(purchase_id)
-            for (category of items) {
-                item.category === category.title ? category.data.push(item) : {}
+        
+        // Iterate through each purchase, where item will be each item
+        for (item of this.state.items) {
+            // Iterate through each category, where category will be each element in the array, that consists of 2 key:value pairs
+            for (i = 0; i < allItems.length; i++) {
+
+                if (item["category"] === allItems[i].title) {
+                    allItems[i]["data"].push(item);
+                }
             }
         }
+        this.setState({items: allItems});
+    }
 
+    render() {
         return(
             <View>
-                <Text>{temp.location}</Text>
-                <Text>{temp.date}</Text>
-                <Text>${temp.total.toFixed(2)}</Text>
-
+                <Text>{this.state.location}</Text>
+                <Text>{this.state.date}</Text>
+                <Text>${this.state.total.toFixed(2)}</Text>
                 <SectionList
-                    sections={items}
+                    sections={this.state.items}
                     renderSectionHeader = {({section}) => (
                         <Text>{section.title}</Text>
                     )}
