@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, TabBarIOS, Text, View } from 'react-native'
+import { StyleSheet, LogBox} from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -10,16 +10,22 @@ import IndividualPurchases from './screens/individualPurchases';
 import Category from './screens/category';
 import Login from './screens/login';
 import Register from './screens/register';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import UserContext from './userContext';
 import addPurchase from './screens/addPurchase';
 
-import UserContext from './userContext';
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs(); //Ignore all log notifications
+LogBox.ignoreLogs(['Error: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs(); //Ignore all log notifications
+
 
 const PurchasesStack = createStackNavigator();
 function PurchasesStackScreen() {
   return (
-    <PurchasesStack.Navigator>
+    <PurchasesStack.Navigator headerMode = "none" initialRouteName = "Purchases">
       <PurchasesStack.Screen name="Purchases" component={Purchases} />
-      <PurchasesStack.Screen name="Add Purchase" component={addPurchase} />
+      <PurchasesStack.Screen name = "Add Purchase" component={addPurchase} />
       <PurchasesStack.Screen name="Individual Purchase" component={IndividualPurchases} />
     </PurchasesStack.Navigator>
   )
@@ -28,7 +34,7 @@ function PurchasesStackScreen() {
 const BudgetStack = createStackNavigator();
 function BudgetStackScreen() {
   return (
-    <BudgetStack.Navigator>
+    <BudgetStack.Navigator headerMode = "none" initialRouteName = "Budget">
       <BudgetStack.Screen name="Budget" component={Budget} />
     </BudgetStack.Navigator>
   )
@@ -37,7 +43,7 @@ function BudgetStackScreen() {
 const StatStack = createStackNavigator();
 function StatStackScreen() {
   return (
-    <StatStack.Navigator>
+    <StatStack.Navigator headerMode = "none" initialRouteName = "Stats">
       <StatStack.Screen name="Stats" component={Stats} />
       <StatStack.Screen name="Category" component={Category} />
     </StatStack.Navigator>
@@ -47,7 +53,25 @@ function StatStackScreen() {
 const Tabs = createBottomTabNavigator();
 function MainTabs() {
   return (
-    <Tabs.Navigator initialRouteName = "Budget">
+    <Tabs.Navigator 
+    screenOptions={({ route }) => ({
+      tabBarIcon: ({ focused, color, size }) => {
+        let iconName;
+
+        if (route.name === 'Purchases') {
+          iconName = focused
+            ? 'pricetag'
+            : 'pricetag-outline';
+        } else if (route.name === 'Budget') {
+          iconName = focused ? 'wallet' : 'wallet-outline';
+        }
+        else if (route.name === 'Stats') {
+          iconName = focused ? 'stats-chart' : 'stats-chart-outline';
+        }
+
+        return <Ionicons name={iconName} size={size} color={color} />;
+      },
+    })}tabBarOptions = {{activeTintColor: "#00b300", inactiveTintColor:"#007d00", activeBackgroundColor:"#bfffbf" }}headerMode = "none" initialRouteName = "Purchases">
       <Tabs.Screen name="Purchases" component={PurchasesStackScreen} />
       <Tabs.Screen name="Budget" component={BudgetStackScreen} />
       <Tabs.Screen name="Stats" component={StatStackScreen} />
@@ -58,7 +82,7 @@ function MainTabs() {
 const MainStack = createStackNavigator();
 function MainStackScreens() {
   return (
-    <MainStack.Navigator initialRouteName = "">
+    <MainStack.Navigator headerMode = "none" initialRouteName = "">
       <MainStack.Screen name = "Login" component = {Login} />
       <MainStack.Screen name = "Register" component = {Register} />
       <MainStack.Screen name = "Main Tabs" component = {MainTabs} />

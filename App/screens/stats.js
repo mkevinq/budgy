@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Text, ScrollView, SafeAreaView, Dimensions, FlatList, Button } from 'react-native';
 import StatisticsItem from '../components/statisticsItem';
 import CreatePieChart from '../components/createPieChart';
+import Header from './header';
 
 const pieData = [
     {
@@ -61,9 +62,14 @@ export default class Stats extends React.Component {
         this.setState({sum: sum});
     }
 
+    goBack = () => {
+		this.props.navigation.goBack();
+    };
+
     render() {
         return (
             <SafeAreaView style={{ flex: 1 }}>
+                <Header goBack={this.goBack} />
                 <ScrollView style={{ width: "100%", height: "100%" }}>
                     <CreatePieChart pieData = {pieData}/>
                     <Text style={{fontSize: 30, borderBottomWidth: 2}}>Breakdown</Text>

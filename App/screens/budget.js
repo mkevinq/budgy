@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, ScrollView, SafeAreaView, Dimensions, FlatList, Button } from 'react-native';
 import BudgetItem from '../components/budgetItem';
 import CreatePieChart from '../components/createPieChart';
+import Header from './header';
+
 const pieData = [
     {
         name: "Groceries",
@@ -62,9 +64,14 @@ export default class Budget extends React.Component{
         })
     }
 
+    goBack = () => {
+		this.props.navigation.goBack();
+    };
+
     render() {
         return (
             <SafeAreaView style={{ flex: 1 }}>
+                <Header goBack = {this.goBack}/>
                 <ScrollView style={{ width: "100%", height: "100%" }}>
                     <CreatePieChart pieData = {this.state.pieData}/>
                     <FlatList data={this.state.categoryData} renderItem={({item}) => <BudgetItem category={item.category} amount={item.amount} id={item.id} updateBudget={this.updateBudget.bind(this)}></BudgetItem>} keyExtractor={(item) => categoryData.id} />

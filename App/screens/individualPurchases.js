@@ -2,6 +2,7 @@ import React from 'react';
 import { View, SectionList, Text } from 'react-native';
 import ItemInfo from '../components/itemInfo';
 import UserContext from '../userContext';
+import Header from './header';
 
 export default class IndividualPurchases extends React.Component {
     constructor(props) {
@@ -69,8 +70,14 @@ export default class IndividualPurchases extends React.Component {
         this.setState({items: allItems});
     }
 
+    goBack = () => {
+		this.props.navigation.goBack();
+    };
+
     render() {
         return(
+            <View style ={{flex:1}}>
+                <Header goBack = {this.goBack} />
             <View style={{padding: 15, alignItems: 'center', width: '100%'}}>
                 <Text style={{fontSize: 50}}>{this.state.location}</Text>
                 <Text style={{fontSize: 40}}>${this.state.total.toFixed(2)}</Text>
@@ -93,6 +100,7 @@ export default class IndividualPurchases extends React.Component {
                         width: '100%'
                     }}
                 />
+            </View>
             </View>
         )
     }

@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { ScrollView, View, Text, TextInput, Button, Platform } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import Header from './header';
+
 export default class addPurchase extends React.Component {
     
     constructor(props) {
@@ -89,9 +91,14 @@ export default class addPurchase extends React.Component {
         this.setState({items: updatedList});
     }
 
+    goBack = () => {
+		this.props.navigation.goBack();
+    };
+
     render() {
         return(
-            <View>
+            <View style = {{flex:1}}>
+                <Header goBack={this.goBack} />
                 <Button title="Pick an image from camera roll" onPress={this.getImage} />
                 <ScrollView style={{}}>
                     <View style={{flexDirection: 'row', paddingHorizontal: 10, alignItems: 'center'}}>
