@@ -32,7 +32,7 @@ export default class addPurchase extends React.Component {
     getImage = async () => {
         let result = await ImagePicker.launchCameraAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
-            quality: 0.1,
+            quality: 1,
             base64: true,
         })
         if (!result.cancelled) {
