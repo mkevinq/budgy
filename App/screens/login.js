@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image, TextInput, View, Text, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-// import firebase from '../firebaseConfig';
+import firebase from '../firebaseConfig';
 import UserContext from '../userContext';
 import Header from './header';
 
@@ -16,17 +16,6 @@ export default class Login extends React.Component {
 
     static contextType = UserContext;
 
-    componentDidMount() {
-        /*
-        firebase.auth().onAuthStateChanged(user => {
-            console.log(user);
-            this.context.updateUserData(user);
-            this.props.navigation.navigate("Main Tabs");
-        })
-        */
-        this.props.navigation.navigate("Main Tabs");
-    }
-
     updateEmail = (text) => {
         this.setState({ email: text });
     }
@@ -36,17 +25,19 @@ export default class Login extends React.Component {
     }
 
     onLogin = () => {
-        /*
         firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
         .then(user => {
             console.log(user);
-            this.props.navigation.navigate("Main Tabs");
+            if (user.user.emailVerified) {
+                this.props.navigation.navigate("Main Tabs");
+            } else {
+                alert("E-mail is not currently verified");
+                firebase.auth().signOut();
+            }
         })
         .catch(err => {
-            console.log(err);
+            alert(err);
         })
-        */
-        this.props.navigation.navigate("Main Tabs");
     }
 
     onRegister = () => {
@@ -113,5 +104,4 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom:30
     },
-
 })

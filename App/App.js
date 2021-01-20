@@ -1,8 +1,9 @@
 import React from 'react';
 import { StyleSheet, LogBox} from 'react-native'
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import firebase from './firebaseConfig';
 import Budget from './screens/budget';
 import Stats from './screens/stats';
 import Purchases from './screens/purchases';
@@ -98,19 +99,36 @@ export default class App extends React.Component {
       token: "",
       updateUserData: this.updateUserData.bind(this)
     };
+    this.navigation = React.createRef();
+  }
+
+  componentDidMount() {
+    firebase.auth().onAuthStateChanged(user => {
+      console.log(user);
+      this.updateUserData(user);
+      if (user.emailVerified) {
+          this.navigation.current.navigate("Main Tabs");
+      } else {
+          this.navigation.current.navigate("Login");
+      }
+    })
   }
 
   updateUserData(user) {
-    user.getIdToken()
-    .then((token) => {
-      this.setState({ userData: user, token: token });
-    })
+    if (user) {
+      user.getIdToken()
+      .then((token) => {
+        this.setState({ userData: user, token: token });
+      })
+    } else {
+      this.setState({ userData: {}, token: "" })
+    }
   }
 
   render() {
     return (
       <UserContext.Provider value={ this.state }>
-        <NavigationContainer>
+        <NavigationContainer ref={ this.navigation }>
           <MainStackScreens />
         </NavigationContainer>
       </UserContext.Provider>
