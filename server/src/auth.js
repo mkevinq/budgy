@@ -8,8 +8,14 @@ module.exports = (req, res, next) => {
 
     admin.auth().verifyIdToken(token)
     .then((decoded) => {
-        req.user = decoded
-        next();
+        if (decoded.email_verified === true) {
+            req.user = decoded
+            next();
+        } else {
+            res.status(401).json({
+                message:"E-mail is not verified"
+            })
+        }
     })
     .catch((err) => {
         res.status(401).json({
